@@ -1,4 +1,4 @@
-def read_data_from_twstock(in_file):
+def mine_data(in_file):
     stock_list = {}
     import numpy as np
 
