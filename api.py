@@ -56,3 +56,14 @@ def build_candlestick(open_p, low, high, close):
         else:
             candlestick.append(8)
     return candlestick
+
+def find_at_peak(stock_data, candidate=[], day = 10):
+    #identify stock near the peak return list of index
+    return
+
+def find_dagger(stock_data, candidate=[], rise = .3, blade = .2):
+    #find dagger
+    return
+
+def find_concordance(stock_data):
+    return
