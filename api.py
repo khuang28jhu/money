@@ -71,6 +71,7 @@ def find_concordance(stock_data):
 
 def visualize_trend(stock_data):
     #some stupid matplotlib shit
+    import matplotlib.pyplot as plt
     pass
 
 def decide_day_trade():
