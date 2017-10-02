@@ -66,9 +66,12 @@ def find_dagger(stock_data, candidate=[], rise = .3, blade = .2):
     return
 
 def find_concordance(stock_data):
+    #concordance of stock with global
     return
 
-
+def visualize_trend(stock_data):
+    #some stupid matplotlib shit
+    pass
 
 def decide_day_trade():
     #strategy
