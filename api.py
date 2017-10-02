@@ -67,3 +67,9 @@ def find_dagger(stock_data, candidate=[], rise = .3, blade = .2):
 
 def find_concordance(stock_data):
     return
+
+
+
+def decide_day_trade():
+    #strategy
+    return
