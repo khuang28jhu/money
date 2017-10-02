@@ -33,25 +33,25 @@ def mine_data(in_file):
 def build_fluctuation(high, low):
     return [(high[day] - low[day])/ low[day] for day in range(len(high))]
 
-def build_candlestick(open_p, low, high, close):
+def build_candlestick(open_p, low, high, close_p):
     candlestick = []
 
     for day in range(len(open_p)):
-        if open_p[day] == close[day] and open_p[day] > low[day] and open_p[day] < high[day]:  #cross
+        if open_p[day] == close_p[day] and open_p[day] > low[day] and open_p[day] < high[day]:  #cross
             candlestick.append(0)
-        elif open_p[day] == close[day] and open_p[day] == low[day] and high[day] > low[day]: #tomb
+        elif open_p[day] == close_p[day] and open_p[day] == low[day] and high[day] > low[day]: #tomb
             candlestick.append(1)
-        elif open_p[day] == close[day] and open_p[day] == high[day] and low[day] <  high[day]: #opp. of tomb
+        elif open_p[day] == close_p[day] and open_p[day] == high[day] and low[day] <  high[day]: #opp. of tomb
             candlestick.append(2)
-        elif open_p[day] == close[day] and close[day] == low[day] and low[day] == high[day]: #dash
+        elif open_p[day] == close_p[day] and close_p[day] == low[day] and low[day] == high[day]: #dash
             candlestick.append(3)
-        elif open_p[day] == low[day] and open_p[day] < close_p[day] and close_p[day] < high[day]: #dagger up
+        elif (open_p[day] == low[day] or close_p[day] == low[day]) and close_p[day] < high[day] and open_p[day] < high[day] : #dagger up
             candlestick.append(4)
-        elif open_p[day] == high[day] and open_p[day] > close_p[day] and close_p[day] > low[day]: #dagger down
+        elif (open_p[day] == high[day] or close_p[day] == high[day]) and close_p[day] > low[day] and open_p[day] > low[day] :#dagger down
             candlestick.append(5)
-        elif high[day] == close[day] and open_p[day] == low[day] and close[day] > open_p[day]: #keep rising
+        elif high[day] == close_p[day] and open_p[day] == low[day] and close_p[day] > open_p[day]: #keep rising
             candlestick.append(6)
-        elif low[day] == close[day] and open_p[day] == high[day] and close[day] < open_p[day]: #keep lowering
+        elif low[day] == close_p[day] and open_p[day] == high[day] and close_p[day] < open_p[day]: #keep lowering
             candlestick.append(7)
         else:
             candlestick.append(8)
@@ -61,9 +61,29 @@ def find_at_peak(stock_data, candidate=[], day = 10):
     #identify stock near the peak return list of index
     return
 
-def find_dagger(stock_data, candidate=[], rise = .3, blade = .2):
-    #find dagger
-    return
+def find_dagger_up(stock_data, candidate=[], blade = .5):
+    if len(candidate) == 0:
+        candidate = stock_data.keys()
+    
+    filtered_candidate = []
+    for stock in candidate:
+        if ((stock_data[stock][2,-1] - stock_data[stock][0,-1]) /   stock_data[stock][5,-1]  >= blade or (stock_data[stock][2,-1] - stock_data[stock][3,-1]) /   stock_data[stock][5,-1]  >= .5) and
+        (stock_data[stock][6, -1] == 4 or stock_data[stock][6, -1] == 1):
+            filtered_candidate.append(stock)
+      
+    return filtered_candidate
+
+def find_skyrocket(stock_data, candidate=[], tolerance=.2, jump=.5):
+    #need yesterday's shit to automate this
+    if len(candidate) == 0:
+        candidate = stock_data.keys()
+     
+    filtered_candidate = []
+    for stock in candidate:
+        if stock_data[stock][6, -1] == 3 or stock_data[stock][6, -1] == 2:
+            filtered_candidate.append(stock)
+    
+    return filtered_candidate
 
 def find_concordance(stock_data):
     #concordance of stock with global
